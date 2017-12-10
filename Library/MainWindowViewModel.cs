@@ -169,7 +169,7 @@ namespace Library
         {
             SqlConnectionStringBuilder connectionstring = new SqlConnectionStringBuilder();
             connectionstring.IntegratedSecurity = true;
-            connectionstring.DataSource = "LAPTOP-VJ4LJ07E";//Environment.MachineName + "\\SQLEXPRESS";
+            connectionstring.DataSource = "LAPTOP-VJ4LJ07E";
             connectionstring.InitialCatalog = "forbooks";
             return connectionstring.ConnectionString;
         }
