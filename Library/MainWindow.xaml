@@ -1,0 +1,75 @@
+﻿<Window x:Class="Library.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Library"
+        mc:Ignorable="d"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        Title="MyLib" Height="400" Width="800" ResizeMode="NoResize">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="пуф.jpg"></ImageBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Author" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="Book" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="0" Grid.Column="3" Text="Share" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Margin="2" x:Name="SearchBox" Grid.Row="0" Grid.Column="0" FontSize="20" Opacity="0.95"/>
+            <Button Template="{StaticResource RoundButtonTemplate}" Grid.Column="1" Grid.Row="0" Content="Search" Command="{Binding Search}" CommandParameter="{Binding ElementName=SearchBox}" FontWeight="Bold"/>
+            <ListView Margin="7" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding SearchResults}" Name="SearchResults" Opacity="0.85" FontWeight="Bold" BorderThickness="5" BorderBrush="#FFC14959" Foreground="#FF610A15" Background="#FFEED699" FontSize="14">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="80" Header="Author" DisplayMemberBinding="{Binding Author}"/>
+                        <GridViewColumn Width="150" Header="Book" DisplayMemberBinding="{Binding Book}"/>
+                    </GridView>
+                </ListView.View>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding SearchSelect}"  CommandParameter="{Binding ElementName=SearchResults, Path=SelectedItem}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListView>
+        </Grid>
+        <ListView Margin="7" Grid.Row="1" Grid.Column="1" Name="Authors" ItemsSource="{Binding Authors}" Opacity="0.85" BorderThickness="5" BorderBrush="#FFC14959" Background="#FFEED699" Foreground="#FF610A15" FontSize="14" FontWeight="Bold">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding AuthorSelect}"  CommandParameter="{Binding ElementName=Authors, Path=SelectedItem}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListView>
+        <ListView Margin="7" Grid.Row="1" Grid.Column="2" Name="Books" ItemsSource="{Binding Books}" Opacity="0.85" BorderThickness="5" BorderBrush="#FFC14959" Background="#FFEED699" Foreground="#FF610A15" FontWeight="Bold" FontSize="14">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding BookSelect}"  CommandParameter="{Binding ElementName=Books, Path=SelectedItem}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListView>
+        <Grid Grid.Row="1" Grid.Column="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox Margin="7" Grid.Row="0" Text="{Binding ShareBox}" Name="ShareBox" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Opacity="0.85" BorderThickness="5" BorderBrush="#FFC14959" Background="#FFEED699" Foreground="#FF610A15" FontWeight="Bold" FontSize="14"/>
+            <Button Template="{StaticResource RoundButtonTemplate}" Grid.Row="1" Content="Send to VK" Command="{Binding Share}" CommandParameter="{Binding ElementName=ShareBox}" FontWeight="Bold"/>
+        </Grid>
+    </Grid>
+</Window>
