@@ -77,6 +77,7 @@ namespace Library
         public Command AuthorSelect { get; set; }
         public Command BookSelect { get; set; }
         public Command SearchSelect { get; set; }
+        public Command Share { get; set; }
         private string SelectedAuthor;
         public MainWindowViewModel()
         {
@@ -89,6 +90,14 @@ namespace Library
             SearchSelect = new Command();
             SearchSelect.ExecFunc = SearchSelectFunction;
             Authors = new List<string>(MakeRequest("select author from booklets group by author"));
+            Share = new Command();
+            Share.ExecFunc = ShareFunction;
+        }
+        private void ShareFunction(object parameter)
+        {
+            if (parameter == null || !(parameter is TextBox)) return;
+            Window s = new ShareWindow(((TextBox)parameter).Text);
+            s.Show();
         }
         private void SearchFunction(object parameter)
         {

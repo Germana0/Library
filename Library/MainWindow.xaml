@@ -21,9 +21,9 @@
             <RowDefinition Height="20"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="Author" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <TextBlock Grid.Row="0" Grid.Column="2" Text="Book" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <TextBlock Grid.Row="0" Grid.Column="3" Text="Share" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Author" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="Book" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+        <TextBlock Grid.Row="0" Grid.Column="3" Text="Share" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
@@ -33,9 +33,15 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <TextBox Margin="2" x:Name="SearchBox" Grid.Row="0" Grid.Column="0" FontSize="20" Opacity="0.95"/>
+            <TextBox Margin="2" x:Name="SearchBox" Grid.Row="0" Grid.Column="0" FontSize="20" Opacity="0.95">
+                <Binding Path="SearchBox" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <local:CheckSearchBox/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
             <Button Template="{StaticResource RoundButtonTemplate}" Grid.Column="1" Grid.Row="0" Content="Search" Command="{Binding Search}" CommandParameter="{Binding ElementName=SearchBox}" FontWeight="Bold"/>
-            <ListView Margin="7" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding SearchResults}" Name="SearchResults" Opacity="0.85" FontWeight="Bold" BorderThickness="5" BorderBrush="#FFC14959" Foreground="#FF610A15" Background="#FFEED699" FontSize="14">
+            <ListView Margin="7" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding SearchResults}" Name="SearchResults" Opacity="0.85" FontWeight="Bold" BorderThickness="1" BorderBrush="#FFC14959" Foreground="#FF610A15" Background="#FFEED699" FontSize="14">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="80" Header="Author" DisplayMemberBinding="{Binding Author}"/>
@@ -49,14 +55,14 @@
                 </i:Interaction.Triggers>
             </ListView>
         </Grid>
-        <ListView Margin="7" Grid.Row="1" Grid.Column="1" Name="Authors" ItemsSource="{Binding Authors}" Opacity="0.85" BorderThickness="5" BorderBrush="#FFC14959" Background="#FFEED699" Foreground="#FF610A15" FontSize="14" FontWeight="Bold">
+        <ListView Margin="7" Grid.Row="1" Grid.Column="1" Name="Authors" ItemsSource="{Binding Authors}" Opacity="0.85" BorderThickness="1" BorderBrush="#FFC14959" Background="#FFEED699" Foreground="#FF610A15" FontSize="14" FontWeight="Bold" ClipToBounds="True">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding AuthorSelect}"  CommandParameter="{Binding ElementName=Authors, Path=SelectedItem}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ListView>
-        <ListView Margin="7" Grid.Row="1" Grid.Column="2" Name="Books" ItemsSource="{Binding Books}" Opacity="0.85" BorderThickness="5" BorderBrush="#FFC14959" Background="#FFEED699" Foreground="#FF610A15" FontWeight="Bold" FontSize="14">
+        <ListView Margin="7" Grid.Row="1" Grid.Column="2" Name="Books" ItemsSource="{Binding Books}" Opacity="0.85" BorderThickness="1" BorderBrush="#FFC14959" Background="#FFEED699" Foreground="#FF610A15" FontWeight="Bold" FontSize="14" ClipToBounds="True">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding BookSelect}"  CommandParameter="{Binding ElementName=Books, Path=SelectedItem}"/>
@@ -68,7 +74,7 @@
                 <RowDefinition Height="4*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBox Margin="7" Grid.Row="0" Text="{Binding ShareBox}" Name="ShareBox" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Opacity="0.85" BorderThickness="5" BorderBrush="#FFC14959" Background="#FFEED699" Foreground="#FF610A15" FontWeight="Bold" FontSize="14"/>
+            <TextBox Margin="7" Grid.Row="0" Text="{Binding ShareBox}" Name="ShareBox" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Opacity="0.85" BorderThickness="1" BorderBrush="#FFC14959" Background="#FFEED699" Foreground="#FF610A15" FontWeight="Bold" FontSize="14"/>
             <Button Template="{StaticResource RoundButtonTemplate}" Grid.Row="1" Content="Send to VK" Command="{Binding Share}" CommandParameter="{Binding ElementName=ShareBox}" FontWeight="Bold"/>
         </Grid>
     </Grid>

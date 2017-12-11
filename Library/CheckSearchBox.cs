@@ -8,7 +8,8 @@ using System.Windows.Controls;
 
 namespace Library
 {
-    class CheckSearchBox : ValidationRule
+    class CheckSearchBox : ValidationRule //Предоставляет способ создания настраиваемого 
+                                         //правила для проверки допустимости вводимых пользователем данных.
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {

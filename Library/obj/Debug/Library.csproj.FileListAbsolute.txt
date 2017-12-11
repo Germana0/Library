@@ -77,3 +77,6 @@ C:\Users\Германа\Desktop\уни\2 курс\прога\Library\Library\Lib
 C:\Users\Германа\Desktop\уни\2 курс\прога\Library\Library\Library\bin\Debug\en\Microsoft.Windows.Design.Extensibility.resources.dll
 C:\Users\Германа\Desktop\уни\2 курс\прога\Library\Library\Library\bin\Debug\ru\Microsoft.Windows.Design.Extensibility.resources.dll
 C:\Users\Германа\Desktop\уни\2 курс\прога\Library\Library\Library\obj\Debug\App.baml
+C:\Users\Германа\Desktop\уни\2 курс\прога\Library\Library\Library\obj\Debug\ShareWindow.g.cs
+C:\Users\Германа\Desktop\уни\2 курс\прога\Library\Library\Library\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Германа\Desktop\уни\2 курс\прога\Library\Library\Library\obj\Debug\ShareWindow.baml
