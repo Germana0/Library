@@ -13,6 +13,7 @@ namespace Library
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
+            //REVIEW: А что, сообщение об ошибке в данном случае не нужно?
             if (value == null || !(value is string)) return new ValidationResult(false, null); ;
             string input = value as string;
             if (input.Length > 50)

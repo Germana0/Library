@@ -37,13 +37,17 @@ namespace Library
         }
         private void MakePost(object parameter)
         {
+            //REVIEW: Вот тут бы брякнуть чего-нибудь, почему return
             if (parameter == null || !(parameter is WebBrowser)) return;
             Uri uri = ((WebBrowser)parameter).Source;
+            //REVIEW: А если тут где-нибудь вместо строки прилетит ""?
             string fragment = uri.Fragment.TrimStart('#');
             string token = HttpUtility.ParseQueryString(fragment).Get("access_token");
             string error = HttpUtility.ParseQueryString(fragment).Get("error");
             string error_description = HttpUtility.ParseQueryString(fragment).Get("error_description");
+            //REVIEW: А если error == ""? И опять же, безмолвный return - нехорошо
             if (error != null) { MessageBox.Show(error_description); return; }
+            //REVIEW: Опять строка и безмолвный return
             if (token == null) return;
             string url = $"https://api.vk.com/method/wall.post?access_token={token}&message={post}";
             try

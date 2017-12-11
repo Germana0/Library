@@ -95,12 +95,14 @@ namespace Library
         }
         private void ShareFunction(object parameter)
         {
+            //REVIEW: Не-не-не, текстбокс нужно биндить, а не передавать во вьюмодель
             if (parameter == null || !(parameter is TextBox)) return;
             Window s = new ShareWindow(((TextBox)parameter).Text);
             s.Show();
         }
         private void SearchFunction(object parameter)
         {
+            //REVIEW: Вьюмодель не должна знать про контролы окна
             if (parameter == null || !(parameter is TextBox)) return;
             TextBox box = (TextBox)parameter;
             if (Validation.GetHasError(box))
@@ -110,6 +112,7 @@ namespace Library
             }
             string request = box.Text;
             List<SearchResult> Results = new List<SearchResult>();
+            //REVIEW: А MakeRequest тут чем не подходит?
             using (SqlConnection db = new SqlConnection(ConnectionString()))
             {
                 SqlCommand query = new SqlCommand($"select author, book from booklets where author like \'%{request}%\' or book like \'%{request}%\'", db);
@@ -178,6 +181,7 @@ namespace Library
         {
             SqlConnectionStringBuilder connectionstring = new SqlConnectionStringBuilder();
             connectionstring.IntegratedSecurity = true;
+            //REVIEW: Вот эти вещи надо выносить в настройки. Может быть, даже всю строку подключения
             connectionstring.DataSource = "LAPTOP-VJ4LJ07E";
             connectionstring.InitialCatalog = "forbooks";
             return connectionstring.ConnectionString;
