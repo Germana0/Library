@@ -95,8 +95,7 @@ namespace Library
         }
         private void ShareFunction(object parameter)
         {
-            if (parameter == null || !(parameter is TextBox)) return;
-            Window s = new ShareWindow(((TextBox)parameter).Text);
+            Window s = new ShareWindow(ShareBox);
             s.Show();
         }
         private void SearchFunction(object parameter)
@@ -108,29 +107,9 @@ namespace Library
                 MessageBox.Show(Validation.GetErrors(box)[0].ErrorContent.ToString());
                 return;
             }
-            string request = box.Text;
-            List<SearchResult> Results = new List<SearchResult>();
-            using (SqlConnection db = new SqlConnection(ConnectionString()))
-            {
-                SqlCommand query = new SqlCommand($"select author, book from booklets where author like \'%{request}%\' or book like \'%{request}%\'", db);
-                SqlDataReader reader;
-                try
-                {
-                    db.Open();
-                    reader = query.ExecuteReader();
-                    SqlDataAdapter adapter = new SqlDataAdapter(query);
-                    DataTable table = new DataTable();
-                    db.Close();
-                    adapter.Fill(table);
-                    foreach (DataRow row in table.Rows)
-                        Results.Add(new SearchResult((string)row.ItemArray[0], (string)row.ItemArray[1]));
-                }
-                catch
-                {
-                    MessageBox.Show("Local database is inaccessible");
-                }
-            }
-            SearchResults = new List<SearchResult>(Results);
+            List<SearchResult> hold = new List<SearchResult>();
+            MakeRequest($"select author, book from booklets where author like \'%{SearchBox}%\' or book like \'%{SearchBox}%\'", ref hold);
+            SearchResults = new List<SearchResult>(hold);
         }
         private void AuthorSelectFunction(object parameter)
         {
@@ -152,7 +131,7 @@ namespace Library
         private List<string> MakeRequest(string request)
         {
             List<string> Results = new List<string>();
-            using (SqlConnection db = new SqlConnection(ConnectionString()))
+            using (SqlConnection db = new SqlConnection(Properties.Settings.Default.connectionstring))
             {
                 SqlCommand query = new SqlCommand(request, db);
                 SqlDataReader reader;
@@ -174,13 +153,30 @@ namespace Library
             }
             return Results;
         }
-        private string ConnectionString()
+        private void MakeRequest(string request, ref List<SearchResult> outlist)
         {
-            SqlConnectionStringBuilder connectionstring = new SqlConnectionStringBuilder();
-            connectionstring.IntegratedSecurity = true;
-            connectionstring.DataSource = "LAPTOP-VJ4LJ07E";
-            connectionstring.InitialCatalog = "forbooks";
-            return connectionstring.ConnectionString;
+            List<SearchResult> Results = new List<SearchResult>();
+            using (SqlConnection db = new SqlConnection(Properties.Settings.Default.connectionstring))
+            {
+                SqlCommand query = new SqlCommand(request, db);
+                SqlDataReader reader;
+                try
+                {
+                    db.Open();
+                    reader = query.ExecuteReader();
+                    SqlDataAdapter adapter = new SqlDataAdapter(query);
+                    DataTable table = new DataTable();
+                    db.Close();
+                    adapter.Fill(table);
+                    foreach (DataRow row in table.Rows)
+                        Results.Add(new SearchResult((string)row.ItemArray[0], (string)row.ItemArray[1]));
+                }
+                catch
+                {
+                    MessageBox.Show("Local database is inaccessible");
+                }
+            }
+            outlist = Results;
         }
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propName)

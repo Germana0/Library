@@ -8,12 +8,11 @@ using System.Windows.Controls;
 
 namespace Library
 {
-    class CheckSearchBox : ValidationRule //Предоставляет способ создания настраиваемого 
-                                         //правила для проверки допустимости вводимых пользователем данных.
+    class CheckSearchBox : ValidationRule 
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            if (value == null || !(value is string)) return new ValidationResult(false, null); ;
+            if (value == null || !(value is string)) return new ValidationResult(false, "Wrong input"); ;
             string input = value as string;
             if (input.Length > 50)
                 return new ValidationResult(false, "Input is too long");

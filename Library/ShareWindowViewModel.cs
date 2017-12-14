@@ -37,14 +37,15 @@ namespace Library
         }
         private void MakePost(object parameter)
         {
-            if (parameter == null || !(parameter is WebBrowser)) return;
+            if (parameter == null || !(parameter is WebBrowser)) MessageBox.Show("wrong parameter"); return;
             Uri uri = ((WebBrowser)parameter).Source;
+            if (string.IsNullOrEmpty(((WebBrowser)parameter).Source.ToString())) return;
             string fragment = uri.Fragment.TrimStart('#');
             string token = HttpUtility.ParseQueryString(fragment).Get("access_token");
             string error = HttpUtility.ParseQueryString(fragment).Get("error");
             string error_description = HttpUtility.ParseQueryString(fragment).Get("error_description");
-            if (error != null) { MessageBox.Show(error_description); return; }
-            if (token == null) return;
+            if (error != null || error=="")  { MessageBox.Show(error_description); MessageBox.Show("there is error"); return; }
+            if (token == null) MessageBox.Show("token is null"); return;
             string url = $"https://api.vk.com/method/wall.post?access_token={token}&message={post}";
             try
             {
